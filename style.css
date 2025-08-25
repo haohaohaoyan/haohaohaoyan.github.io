@@ -8,5 +8,6 @@
 #marker {
   background-color: gray;
   color: gold;
-  font-weight: gold;
+  font-weight: bold;
+  font-size: 36px;
 }
