@@ -4,3 +4,9 @@
   outline-color: black;
   border-radius: 3px;
 }
+
+#marker {
+  background-color: gray;
+  color: gold;
+  font-weight: gold;
+}
