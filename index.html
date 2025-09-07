@@ -3,6 +3,8 @@
 	<head>
 		<title>haohaohao</title>
 		<link rel="icon" type="image/png" href="assets/favicon.png">
+		<!-- brainless copypaste lmao --!>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!-- link Pyscript. --!>
 		<link rel="stylesheet" href="https://pyscript.net/releases/2024.2.1/core.css">
 		<script type="module" src="https://pyscript.net/releases/2024.2.1/core.js"></script>
@@ -44,19 +46,30 @@
 		</style>
 		<div class="topbar">
 			<img id="title" src="assets/logotemp.png" alt="Logo thing i guess???????">
-			<button class="topbarbutton">home</button>
+			<button class="topbarbutton" onclick="window.location.href='https://haohaohaoyan.github.io/index.html'">home</button>
 			<button class="topbarbutton">blog</button>
 			<button class="topbarbutton">projects</button>
 		</div>
 		<style>
-			.content {
+			.main-content {
+			  width: 1400px;
 			  margin: auto;
 			  margin-top: 200px;
-			  text-align: center;
-			  outline: 4px;
-			  outline-color: black;
-			  border-radius: 3px;
+			  padding: 50px;
+			  background-color: black;
+			  border-radius: 15px;
 			  top: 60px;
+			  color: white;
+			  font: 18px "Courier New", sans-serif;
+			}
+			
+			#main-image {
+			  width: 600px;
+			}
+			
+			#subtitle1 {
+			  font-size: 16px;
+			  color: gray;
 			}
 		
 			#marker {
@@ -64,15 +77,25 @@
 			  color: gold;
 			  background-color: gray;
 			}
+
+			#lmao {
+			  position: fixed;
+			  top: 1000px;
+			  font: 64px "Impact", sans-serif;
+			}
 		</style>
-		<div class="content">
-			<p id="marker">UNDER CONSTRUCTION</p>
-			<p>All elements are currently defunct.</p>
+		<div class="main-content">
+			<img id="main-image" src="assets/logotemp.png" alt="Logo thing i guess???????">
+			<p id="subtitle1">/idiot/student/computer-nerd/math-nut/weeb/awkward-person/homebrew-enthusiast</p>
+			<h1>hi!</h1>
+			<p>i make things. sometimes not online.</p>
+			<p>*imagine there are contacts here. i'm working on it*</p>
+			<p>background under construction</p>
 		</div>
+		<img id="lmao" src="assets/soidiscoveredthetopcssproperty.png" alt="phone user detected">
+		
 	</body>
 </html>
-
-
 
 
 
