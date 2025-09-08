@@ -53,7 +53,7 @@
 			  width: 70vw;
 			  margin: auto;
 			  margin-top: 25vh;
-			  padding: 50px;
+			  padding: 30px;
 			  background-color: black;
 			  border-radius: 15px;
 			  top: 60px;
@@ -78,8 +78,78 @@
 
 			#lmao {
 			  position: fixed;
-			  top: 1440px;
+			  top: 1280px;
 			  font: 64px "Impact", sans-serif;
+			}
+
+			#contacts {
+			  display: flex;
+			  flex-direction: row;
+			  flex-wrap: wrap;
+			  width: 100%;
+			  padding: 0px;
+			}
+			
+			.contactbutton {
+			  width: 49%;
+			  height: 8vh;
+			  background-color: #646464;
+			  color: white;
+			  font: bold 24px "Courier New", sans-serif;
+			  border-style: none;
+			  border-radius: 15px;
+			  transition-duration: 0.3s;
+			}
+
+			.contacticon {
+			  height: 6vh;
+			  vertical-align: middle;
+			  margin: 0px 0.3vw;
+			}
+
+			#githubbutton {
+			  background-color: white;
+			  color: green;
+			  margin-right: 2%;
+			  margin-bottom: 2%;
+			}
+
+			#githubbutton:hover {
+			  letter-spacing: 4px;
+			  border: 6px solid green;
+			}
+
+			#makerworldbutton {
+			  background-color: white;
+			  color: black;
+			  margin-bottom: 2%;
+			}
+
+			#makerworldbutton:hover {
+			  letter-spacing: 4px;
+			  border: 6px ridge black;
+			}
+
+			#youtubebutton {
+			  background-color: white;
+			  color: black;
+			  margin-right: 2%;
+			}
+			
+			#youtubebutton:hover {
+			  letter-spacing: 4px;
+			  border: 6px solid #ff0033;
+			}
+
+			#itchbutton {
+			  background-color: white;
+			  color: #fa5c5c;
+			}
+			
+			#itchbutton:hover{
+			  background-color: #fa5c5c;
+			  color: white;
+			  border: 6px solid white;
 			}
 		</style>
 		<div class="main-content">
@@ -87,7 +157,20 @@
 			<p id="subtitle1">/idiot/student/computer-nerd/math-nut/weeb/awkward-person/homebrew-enthusiast</p>
 			<h1>hi!</h1>
 			<p>i make things. sometimes not online.</p>
-			<p>*imagine there are contacts here. i'm working on it*</p>
+			<div id="contacts">
+				<button class="contactbutton" id="githubbutton" onclick="window.open('https://github.com/haohaohaoyan', '_blank').focus()">
+					<img class="contacticon" src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png">
+					github</button>
+				<button class="contactbutton" id="makerworldbutton" onclick="window.open('https://makerworld.com/en/@user_21420979', '_blank').focus()">
+					<img class="contacticon" src="https://or-cloud-forum-prod.s3.dualstack.us-west-2.amazonaws.com/original/3X/3/0/3013b8b6f9c14c20f6727ff473b6b9b00084aed2.png">
+					makerworld</button>
+				<button class="contactbutton" id="youtubebutton" onclick="window.open('https://www.youtube.com/@haohaohaohaohaohaohaohaohao', '_blank').focus()">
+					<img class="contacticon" style="height: 4vh" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/512px-YouTube_full-color_icon_%282017%29.svg.png?20240107144800">
+					youtube</button>
+				<button class="contactbutton" id="itchbutton" onclick="window.open('https://haohaohaoyan.itch.io', '_blank').focus()">
+					<img class="contacticon" src="https://static.itch.io/images/itchio-textless-black.svg">
+					itch.io</button>
+			</div>
 			<p>background under construction</p>
 		</div>
 		<img id="lmao" src="assets/soidiscoveredthetopcssproperty.png" alt="phone user detected">
