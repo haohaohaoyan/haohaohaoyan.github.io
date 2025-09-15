@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>haohaohao</title>
+		<link rel="icon" type="image/png" href="assets/favicon.png">
+		<!-- link Pyscript. -->
+		<link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
+		<script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
+	</head>
+	<body>
+		<style>
+			.topbar {
+			  display: flex;
+			  flex-direction: row;
+ 			  width: 100%;
+			  height: 80px;
+  			  position: fixed;
+ 			  top: 0px;
+			  left: 0px;
+ 			  background-color: black;
+			  color: white;
+			}
+	
+			#title {
+			  height: 80px;
+			  width: 410px;
+			  object-fit: cover;
+			}
+			
+			.topbarbutton {
+			  transition-duration: 0.3s;
+			  display: inline-block;
+			  color: white;
+			  font: 24px "Courier New", sans-serif;
+			  background-color: black;
+			  border-style: none;
+			  height: 80px;
+			  width: 180px;
+			}
+
+			.topbarbutton:hover {
+			  background-color: gray;
+			  letter-spacing: 4px;
+			}
+
+			#currentbutton {
+			  color: black;
+			  background-color: #efefef;
+			}
+			
+			#currentbutton:hover {
+			  background-color: #dcdcdc;
+			  letter-spacing: 4px;
+			}
+		</style>
+		<div class="topbar">
+			<img id="title" src="assets/logotemp.png" alt="Logo thing i guess???????">
+			<button class="topbarbutton" onclick="window.location.href='https://haohaohaoyan.github.io/index.html'">home</button>
+			<button class="topbarbutton">blog</button>
+			<button class="topbarbutton" id="currentbutton">projects</button>
+		</div>
+		<style>
+			#gallery {
+			  margin-top: 15vh;
+			}
+
+			#modal-background {
+			  transition-duration: 0.2s;
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  position: fixed;
+			  top: 0px;
+			  left: 0px;
+			  background-color: rgba(0,0,0,0);
+			  color: white;
+			  width: 100vw;
+			  height: 100vh;
+			  z-index: -1;
+			}
+		
+			.projectrow {
+			  display: flex;
+			  flex-direction: row;
+			  justify-content: center;
+			  margin: auto;
+			}
+
+			.project {
+			  border-radius: 15px;
+			  background-color: black;
+			  color: white;
+			  font: 16px "Courier New", sans-serif;
+			  height: 250px;
+			  width: 300px;
+			  padding: 10px;
+			}
+
+			.project-thumbnail {
+			  width: 100%;
+			  border-radius: 10px;
+			}
+
+			.project-title {
+			  font: bold 24px "Courier New", sans-serif;
+			  margin: 5px;
+			}
+
+			.modal-project {
+				display: none;
+				justify-content: right;
+				flex-direction: row-reverse;
+				text-align: left;
+				width: 60vw;
+				height: 40vh;
+				font: 20px "Courier New", sans-serif;
+			}
+
+			.modal-thumbnail {
+				display: inherit;
+				align-self: flex-start;
+				width: 50%;
+				border-radius: 15px;
+			}
+
+			.modal-text-box {
+				display: inherit;
+				flex-direction: column;
+				width: 50%;
+				color: white;
+			}
+
+			.modal-title {
+				display: inherit;
+				font: bold 30px "Courier New", sans-serif;
+			}
+
+			.modal-details {
+				display: inherit;
+				font: 26px "Courier New", sans-serif;
+			}
+
+			.modal-description {
+				display: inherit;
+				font: 20px "Courier New", sans-serif;
+			}
+
+			.modal-open-button {
+				display: inherit;
+				font: 20px "Courier New", sans-serif;
+				border: black solid;
+				background-color: white;
+				width: 70%;
+				margin: auto;
+				height: 5vh;
+				border-radius: 15px;
+			}
+		</style>
+		<div id="gallery">
+			<div class="projectrow">
+				<div class="project" id="desmos_table">
+					<img src="assets/desk-screenshot.png" class="project-thumbnail">
+					<p class="project-title">Desmos table project</p>
+				</div>
+			</div>
+		</div>
+		<div id="modal-background">
+			<!--Boxes, all not displayed initially except for mentioned. Uses class and fixed positions-->
+			<!-- All similarly constructed. Name, platform, date finished, details, image with right of 0px-->
+			<div class="modal-project" id="modal_desmos_table">
+				<img class="modal-thumbnail" src="assets/desk-screenshot.png">
+				<div class="modal-text-box">
+					<h1 class="modal-title">Desmos table project</h1>
+					<p class="modal-details">medium: Desmos 3D Graphing Calculator <br>
+						date-finished: Jan. 15, 2025 <br>
+						purpose: Make a submission for the 2025 Desmos Art Expo <br>
+					</p>
+					<p class="modal-description">
+						One day I saw that there was an Art Expo specifically for graphs in Desmos, and I submitted the most interesting one I had on hand. However, after looking at past contest winners, I decided to learn from them and make something actually competent, and this is the result. My real-life desk is actually much messier. <br>
+						Warning - this is very unoptimized. It was my first submission. 
+					</p>
+					<a href="https://www.desmos.com/3d/a295e42537">
+						<button class="modal-open-button">open</button>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- placeholder-->
+		<h1 style="font: bold 24px 'Courier New', sans-serif; color: black; margin: auto;">more to come i guess...</h1>
+		<script type="py" src="projects.py"></script>
+	</body>
+</html>
+
+
+
+
+
+
