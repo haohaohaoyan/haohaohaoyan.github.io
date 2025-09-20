@@ -21,7 +21,7 @@ def show_modal(event):
     modalBackground.style.zIndex = "1"
     modalBackground.style.backgroundColor = "rgba(0,0,0,0.5)"
     shown_project = document.querySelector("#modal_"+ event.currentTarget.id)
-    shown_project.style.display = "flex"
+    shown_project.style.display = "grid"
 
 for p in projects:
     add_event_listener(p, "click", show_modal)
