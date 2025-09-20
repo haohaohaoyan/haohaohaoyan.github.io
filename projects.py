@@ -9,9 +9,6 @@ modalBackground = document.querySelector("#modal-background")
 projects = document.querySelectorAll(".project")
 project_modals = document.querySelectorAll(".modal-project")
 
-def stupid_function_wrapper(function):
-    return function
-
 @when("click", "#modal-background")
 def hide_modal():
     modalBackground.style.backgroundColor = "rgba(0,0,0,0)"
