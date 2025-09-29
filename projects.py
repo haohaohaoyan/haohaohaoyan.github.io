@@ -4,7 +4,6 @@ from pyodide.ffi.wrappers import add_event_listener
 #Shows modals
 
 #Import objects
-#Modal and modal parts
 modalBackground = document.querySelector("#modal-background")
 projects = document.querySelectorAll(".project")
 project_modals = document.querySelectorAll(".modal-project")
