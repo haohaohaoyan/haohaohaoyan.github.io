@@ -17,7 +17,11 @@
 		</div>
 		<style>
 			#gallery {
+			  display: grid;
 			  margin-top: 15vh;
+			  margin-inline: auto;
+			  width: 75vw;
+			  grid-template-columns: repeat(4,380px);
 			}
 
 			#modal-background {
@@ -34,13 +38,6 @@
 			  height: 100vh;
 			  z-index: -1;
 			}
-		
-			.projectrow {
-			  display: flex;
-			  flex-direction: row;
-			  justify-content: center;
-			  margin: auto;
-			}
 
 			.project {
 			  border-radius: 15px;
@@ -48,13 +45,15 @@
 			  color: white;
 			  font: 16px "Courier New", sans-serif;
 			  height: 250px;
-			  width: 300px;
+			  width: 340px;
 			  padding: 10px;
 			}
 
 			.project-thumbnail {
+			  height: 80%;
 			  width: 100%;
 			  border-radius: 10px;
+			  object-fit: cover;
 			}
 
 			.project-title {
@@ -77,6 +76,7 @@
 				grid-column: 3;
 				grid-row: 1 / 3;
 				width: 100%;
+				height: 100%;
 				border-radius: 15px;
 				object-fit: cover;
 			}
@@ -124,11 +124,13 @@
 			}
 		</style>
 		<div id="gallery">
-			<div class="projectrow">
-				<div class="project" id="desmos_table">
-					<img src="assets/desk-screenshot.png" class="project-thumbnail">
-					<p class="project-title">Desmos table project</p>
-				</div>
+			<div class="project" id="desmos_table">
+				<img src="assets/desk-screenshot.png" class="project-thumbnail">
+				<p class="project-title">Desmos table project</p>
+			</div>
+			<div class="project" id="text_adventure_py">
+				<img class="project-thumbnail" src="assets/text-screenshot-i-guess.png">
+				<p class="project-title">Python text adventure</p>
 			</div>
 		</div>
 		<div id="modal-background">
@@ -152,6 +154,20 @@
 				</a>
 			</div>
 			<div class="modal-project" id="modal_text_adventure_py">
+				<img class="modal-thumbnail" src="assets/text-screenshot-i-guess.png">
+				<div class="modal-text-box">
+					<h1 class="modal-title">Python text adventure</h1>
+					<p class="modal-details">medium: Python (web-browser)<br>
+						date-finished: quite a while ago <br>
+						purpose: Do something for the 24-25 MMS Computer Club "game jam"
+					</p>
+					<p class="modal-description">
+						Silly text adventure I made for Computer Club. It only has 4 rooms at the moment and is very badly written (I tossed it together in 4 hours), but I think it did well. I was going to expand on it in Godot, but I realized very early on that I am absolutely horrible at writing stories. The thumbnail was the input bar for the Godot port that was never finished.
+					</p>
+				</div>
+				<a href="assets/textadventuredemo.py" download class="modal-button">
+					<button>download</button>
+				</a>
 			</div>
 		</div>
 		<!-- placeholder-->
