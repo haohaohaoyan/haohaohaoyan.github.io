@@ -53,3 +53,8 @@
     background-color: black;
     border: solid white;
 }
+
+.spacer {
+	height: 0px;
+	margin-top: 100px;
+}
