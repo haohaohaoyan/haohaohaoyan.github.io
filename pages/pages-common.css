@@ -1,0 +1,61 @@
+* {
+    font-family: 'Courier New';
+}
+
+body {
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+    border: outset white;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: black;
+}
+
+#title {
+    width: 100%;
+    position: relative;
+    top: -15px;
+    left: -15px;
+    color: white;
+    background-color: black;
+    padding: 20px;
+}
+
+#title > p, h1 {
+    margin: 0;
+}
+
+.img-major {
+    display: block;
+    margin: 1em auto;
+    width: 60%;
+    max-width: 800px;
+    min-width: 300px;
+    border: solid black 2px;
+    border-radius: 5px;
+}
+
+.button-large {
+    display: block;
+    width: stretch;
+    max-width: 500px;
+    border: none;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+    font-size: 1.6em;
+    padding: 10px;
+    margin: 0.5em auto;
+}
+
+.text-main {
+    max-width: 800px;
+    margin: auto;
+}

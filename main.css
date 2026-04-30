@@ -1,0 +1,142 @@
+body {
+    background-image: url("wallpaper.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#taskbar {
+    position: fixed;
+    z-index: 9998;
+    width: 100vw;
+    height: 3em;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.taskbar-item {
+    background-color: hsla(0,0%,0%,0.1);
+    width: fit-content;
+    min-width: 40;
+    padding: 5px;
+    margin: 5px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes open-window {
+    from {height: 0px;}
+}
+
+@keyframes close-window {
+    to {opacity: 0;}
+}
+
+.window {
+    position: fixed;
+    border: 2px solid black;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.window > iframe {
+    flex: auto;
+    padding: 0;
+    margin: 0;
+    border: 0px;
+}
+
+.headerbar {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    cursor: grab;
+}
+
+.headerbar * {
+    margin: 0;
+    align-self: center;
+}
+
+.close {
+    background-color: red; 
+    border: 3px outset red;
+}
+
+.toggle-window {
+    background-color: green;
+    border: 3px outset green;
+}
+
+.minimize {
+    background-color: goldenrod;
+    border: 3px outset goldenrod;
+}
+
+@keyframes to-fullscreen {
+    to {width: 100%; height: calc(100vh-3em);}
+}
+
+.fullscreen {
+    position: fixed;
+    width: 100% !important;
+    height: calc(100vh - 3em) !important;
+    animation: 0.5s linear to-fullscreen;
+}
+
+.stretch-horizontal {
+    cursor: ew-resize;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    right: -5px;
+    top: 0px;
+}
+
+.stretch-vertical {
+    cursor: ns-resize;
+    width: 100%;
+    height: 10px;
+    position: absolute;
+    bottom: -5px;
+    left: 0px;
+}
+
+#rightclickmenu {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    z-index: 9999;
+    border: 2px solid black;
+    background-color: white;
+    padding: 5px;
+}
+
+#appcontainer {
+    position: absolute;
+    top: 0;
+    display: grid;
+    height: calc(100vh - 3em);
+    grid-template-columns: 100px;
+    grid-template-rows: repeat(auto-fill, 120px);
+    gap: 10px;
+    padding: 10px;
+}
+
+.appicon {
+    background-color: transparent;
+    border-style: none;
+    align-items: center;
+    font-family: 'Courier New';
+    image-rendering: pixelated;
+    width: stretch;
+    height: 80px;
+}
+
+.appicon > img {
+    width: 64px;
+    height: 64px;
+}

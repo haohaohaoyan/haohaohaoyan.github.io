@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>hi!</title>
+    </head>
+    <body style="margin: 0;">
+        <style>           
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: white;
+                border: outset white;
+            }
+            ::-webkit-scrollbar-track-piece {
+                background-color: black;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            #headerbar {
+                background-color: black;
+                width: 100vw; 
+                height: stretch;
+                left: 0;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .content {
+                position: relative;
+                padding: 20px;
+                font-family: 'Courier New';
+            }
+
+            #extras {
+                background-color: black;
+                color: white;
+            }
+
+            h1, h2 {
+                text-align: center;
+            }
+
+            #sticker {
+                position: absolute;
+                z-index: -1;
+                top: -5%;
+                right: -5%;
+                width: 256px;
+                height: 256px;
+                image-rendering: crisp-edges;
+                image-rendering: pixelated;
+                opacity: 0.2;
+            }
+
+            button {
+                width: stretch;
+                min-height: 4em;
+                border: none;
+                border-radius: 8px;
+                background-color: black;
+                color: white;
+                font-family: 'Courier New';
+                font-size: 1em;
+                font-weight: bold;
+                margin: 5px;
+            }
+
+            a {
+                text-decoration: none;
+            }
+        </style>
+        <div id="headerbar">
+            <img style="margin: auto;" height="80px" src="../logo.svg">
+        </div>
+        <div class="content">
+            <h1>welcome to my website!</h1>
+            <h4>i make things, usually not online</h4>
+            <p>i haven't done any serious work yet (asides from doing the congressional app challenge once). most of my stuff is goofy and doesn't have any purpose. <br>
+                i work with: </p>
+            <ul>
+                <li>python (i teach at my school's computer club)</li>
+                <li>javascript</li>
+                <li>godot/gdscript</li>
+            </ul>
+            <a href="projects.html"><button class="openwindow" data-windowpath="pages/projects.html">projects</button></a>
+            <a href="contacts.html"><button class="openwindow" data-windowpath="pages/contacts.html">find me</button></a>
+            <img id="sticker" src="../favicon.png">
+        </div>
+        <div id="extras" class="content">
+            <h2>what even happens on this website?</h2>
+            <p>i thought a webOS would be interesting. try:</p>
+            <ul>
+                <li>dragging this window by holding on the top bar</li>
+                <li>fullscreen with the green button</li>
+                <li>resizing by dragging the edges of this window</li>
+                <li>open some pages with the shortcuts on the left</li>
+                <li>right clicking, pressing "open file", typing in "assets/start.html", and pressing "open"! this works with all files in this repo, try it out!</li>
+                <li>IMPORTANT: ignore the minimize button, that isn't working because i haven't figured out z levels yet </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>other stuff</h2>
+            <p>some other things</p>
+            <ul>
+                <li>my favorite color is NOT cornflower blue (like on this website), it is actually gray #646464</li>
+                <li>this is the second iteration of my website. <p style="font-weight: bold" onclick="window.open('https://github.com/haohaohaoyan/haohaohaoyan.github.io', '_blank').focus();">check my repo here for past commits</p></li>
+                <li>this was submitted in hack club's flavortown</li>
+                <li>there used to be a blog, but i couldn't keep up with it, so it went straight to the can</li>
+                <li>i know how to make my family's banger fried rice recipe</li>
+                <li>my favorite game is earthbound</li>
+                <li>i main pyro and engineer in tf2</li>
+                <li>3ds cfw forever</li>
+                <li>c minor is the best key, fight me</li>
+            </ul>
+            <p>hopefully you'll enjoy navigating this website. that's all!</p>
+        </div>
+    </body>
+</html>

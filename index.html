@@ -2,159 +2,72 @@
 <html>
 	<head>
 		<title>haohaohao</title>
-		<link rel="icon" type="image/png" href="assets/favicon.png">
-		<!-- link Pyscript. -->
-		<link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
-		<script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
-		<link rel="stylesheet" href="topbarstyle.css">
+		<link rel="icon" type="image/png" href="favicon.png">
+		<link rel="stylesheet" href="main.css">
 	</head>
 	<body>
-		<div class="topbar">
-			<img id="title" src="assets/logotemp.png" alt="Logo thing i guess??????">
-			<button class="topbarbutton" id="currentbutton" onclick="window.location.href='https://haohaohaoyan.github.io/index.html'">home</button>
-			<button class="topbarbutton" onclick="window.location.href='https://haohaohaoyan.github.io/blog.html'">blog</button>
-			<button class="topbarbutton" onclick="window.location.href='https://haohaohaoyan.github.io/projects.html'">projects</button>
-		</div>
+		<!-- global styles -->
 		<style>
-			body {
-				display: flex;
-				align-items: center;
-				height: 100vh;
-			}
-
-			.main-content {
-			  width: 70vw;
-			  margin: auto;
-			  padding: 30px;
-			  background-color: black;
-			  border-radius: 15px;
-			  top: 60px;
-			  color: white;
-			  font: 18px "Courier New", sans-serif;
-			}
-			
-			#main-image {
-			  width: 600px;
-			}
-			
-			#subtitle1 {
-			  font-size: 18px;
-			  color: gray;
-			}
-		
-			#marker {
-			  font: 36px "Arial", sans-serif;
-			  color: gold;
-			  background-color: gray;
-			}
-
-			#lmao {
-			  position: fixed;
-			  top: 1280px;
-			  font: 64px "Impact", sans-serif;
-			}
-
-			#contacts {
-			  display: flex;
-			  flex-direction: row;
-			  flex-wrap: wrap;
-			  width: 100%;
-			  padding: 0px;
-			}
-			
-			.contactbutton {
-			  width: 49%;
-			  height: 8vh;
-			  background-color: #646464;
-			  color: white;
-			  font: bold 24px "Courier New", sans-serif;
-			  border-style: none;
-			  border-radius: 15px;
-			  transition-duration: 0.3s;
-			}
-
-			.contacticon {
-			  height: 6vh;
-			  vertical-align: middle;
-			  margin: 0px 0.3vw;
-			}
-
-			#githubbutton {
-			  background-color: white;
-			  color: green;
-			  margin-right: 2%;
-			  margin-bottom: 2%;
-			}
-
-			#githubbutton:hover {
-			  letter-spacing: 4px;
-			  border: 6px solid green;
-			}
-
-			#makerworldbutton {
-			  background-color: white;
-			  color: black;
-			  margin-bottom: 2%;
-			}
-
-			#makerworldbutton:hover {
-			  letter-spacing: 4px;
-			  border: 6px ridge black;
-			}
-
-			#youtubebutton {
-			  background-color: white;
-			  color: black;
-			  margin-right: 2%;
-			}
-			
-			#youtubebutton:hover {
-			  letter-spacing: 4px;
-			  border: 6px solid #ff0033;
-			}
-
-			#itchbutton {
-			  background-color: white;
-			  color: #fa5c5c;
-			}
-			
-			#itchbutton:hover{
-			  letter-spacing: 4px;
-			  background-color: #fa5c5c;
-			  color: white;
-			  border: 6px solid white;
-			}
-
-			#emailbutton {
-				border: 6px solid black;
-				background-color: white;
-				margin-top: 2%;
+			.accented {
+				background-color: cornflowerblue;
+				color: white;
+				font-family: Arial, Helvetica, sans-serif;
 			}
 		</style>
-		<div class="spacer"></div>
-		<div class="main-content">
-			<img id="main-image" src="assets/logotemp.png" alt="Logo thing i guess???????">
-			<p id="subtitle1">programmer, math enthusiast, brother</p>
-			<h1>hi!</h1>
-			<p>i make programs, websites, and teach people about those things.</p>
-			<div id="contacts">
-				<button class="contactbutton" id="githubbutton" onclick="window.open('https://github.com/haohaohaoyan', '_blank').focus()">
-					<img class="contacticon" src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png">
-					github</button>
-				<button class="contactbutton" id="makerworldbutton" onclick="window.open('https://makerworld.com/en/@user_21420979', '_blank').focus()">
-					<img class="contacticon" src="https://or-cloud-forum-prod.s3.dualstack.us-west-2.amazonaws.com/original/3X/3/0/3013b8b6f9c14c20f6727ff473b6b9b00084aed2.png">
-					makerworld</button>
-				<button class="contactbutton" id="youtubebutton" onclick="window.open('https://www.youtube.com/@haohaohaohaohaohaohaohaohao', '_blank').focus()">
-					<img class="contacticon" style="height: 4vh" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/512px-YouTube_full-color_icon_%282017%29.svg.png?20240107144800">
-					youtube</button>
-				<button class="contactbutton" id="itchbutton" onclick="window.open('https://haohaohaoyan.itch.io', '_blank').focus()">
-					<img class="contacticon" src="https://static.itch.io/images/itchio-textless-black.svg">
-					itch.io</button>
+		<template id="window-template">
+			<div class="window" style="top: 0; left: 0; width: 400px; height: 300px;">
+				<div class="headerbar accented">
+					<p>Header</p>
+					<div style="margin-left: auto;">
+						<!--<button class="minimize" title="Minimize window">
+							-
+						</button> -->
+						<button class="toggle-window" title="Toggle fullscreen">
+							□
+						</button>
+						<button class="close" title="Close window">
+							x
+						</button>
+					</div>
+				</div>
+				<div class="stretch-vertical"></div>
+				<div class="stretch-horizontal"></div>
 			</div>
-			<p>contact me at haoyanli234@gmail.com</p>
-			<p>background under construction</p>
+		</template>
+		<template id="taskbar-item-template">
+			<div class="taskbar-item">
+				<p>item</p>
+			</div>
+		</template>
+
+		<div id="taskbar" class="accented">
+			<button style="background-color: transparent; border-style: none;" id="open-start-page-button">
+				<img src="logo.svg" width="200px;" title="Open start page">
+			</button>
+			<p id="clock" style="font-family: 'Courier New'; position: absolute; right: 20px;"></p>
 		</div>
-		<img id="lmao" src="assets/soidiscoveredthetopcssproperty.png" alt="phone user detected">
+		<div id="rightclickmenu" style="top: 0; left: 0;">
+			<button id="rightclickmenu-openfile">Open file</button>
+		</div>
+		<div id="appcontainer">
+			<button class="appicon" onclick="createWindow('pages/start.html')">
+				<img src="fileicon.png">
+				<h3>start page</h3>
+			</button>
+			<button class="appicon" onclick="createWindow('pages/projects.html')">
+				<img src="fileicon.png">
+				<h3>projects</h3>
+			</button>
+			<button class="appicon" onclick="location.href = 'pages/start.html'">
+				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAPxJREFUOI2VU7GxxSAME7kM4CY9DSMwAqOwQoZghYySERiBhhHYgN88ccQv/LvnihhJtpFjsIiUUp+/z/M0b7jXZIyxhxAeuVrrq8g2V9RVV53NOMOktRYAcN83AMB7/yC21gAAxLEjM5M1mCEiaK1BRL7G2kopS3LOGTnnQdbCALBf12UA9BACcs5wzg2hzx0AdI5EMY6wAyCws8XW2uPFeU+R2ZFNt/RrbPi4MPsuIo9FSin12RVr7bg3emn0O1BwFmfUWr9H8N6DzojIkswwUKvLRdLg4zhQSgFxry7wHGPsehNrrQPnnBsu7ARMnv8bGrckxRgfP9aqwB+Rdp+mdk9DywAAAABJRU5ErkJggg==">
+				<h3>open in page mode</h3>
+			</button>
+			<button class="appicon" onclick="window.open('https://www.youtube.com/playlist?list=PLtsxDYadEuK4Up_8Pg_6XmBBsp9Bqui8h', '_blank').focus();">
+				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAItJREFUOI2lk8sRgCAQQxfHInJN/4VQRq50gQcHR3BXUXPjk+xjgWQvBaCSPMZpxhCtkbTVma8AwsBSSitazcwNiAwuURjQjKPhTAAgDmjGkWDUI8GTlplNnwg8nftB0iS9IuiaKclI/juCpP0IHtqskvfySFrO2buF8Vknt4k3BJfQ39fYfYy7SpE210czAdAbt9gAAAAASUVORK5CYII=">
+				<h3>my study playlist</h3>
+			</button>
+		</div>
+		<script src="os.js"></script>
 	</body>
 </html>
 

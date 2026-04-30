@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>my projects</title>
+    </head>
+    <body>
+        <style>
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: white;
+                border: outset white;
+            }
+            ::-webkit-scrollbar-track-piece {
+                background-color: black;
+            }
+
+            button {
+                background-color: black;
+                border-style: none;
+                border-radius: 10px;
+                color: white;
+                padding: 5px;
+                font-family: 'Courier New';
+            }
+
+            button > div {
+                height: stretch;
+            }
+
+            img {
+                width: 300px;
+                height: 225px;
+                overflow: hidden;
+                align-self: self-start;
+                border-radius: 5px;
+                object-fit: cover;
+            }
+
+            #container {
+                display: grid;
+                gap: 5px;
+                grid-template-columns: repeat(auto-fit, 310px);
+            }
+
+            a {
+                text-decoration: none;
+            }
+        </style>
+        <div id="container">
+            <a href="projects-desk.html"><button class="openwindow" data-windowpath="pages/projects-desk.html">
+                <div>
+                    <img src="assets/desk-screenshot.png">
+                    <h1>desmos 3d desk</h1>
+                </div>
+            </button></a>
+            <a href="projects-textadventure.html"><button class="openwindow" data-windowpath="pages/projects-textadventure.html">
+                <div>
+                    <img src="assets/text-adv-screenshot-godot.png">
+                    <h1>python text adventure i made in 7th grade</h1>
+                </div>
+            </button></a>
+            <a href="projects-ratextension.html"><button class="openwindow" data-windowpath="pages/projects-ratextension.html">
+                <div>
+                    <img src="assets/ratpngicon.png">
+                    <h1>rat.png</h1>
+                </div>
+            </button></a>
+            <a href="projects-hackpad.html"><button class="openwindow" data-windowpath="pages/projects-hackpad.html">
+                <div>
+                    <img src="https://github.com/haohaohaoyan/hackpad/raw/main/README%20images/pcb.png">
+                    <h1>hackpad</h1>
+                </div>
+            </button></a>
+            <a href="projects-thiswebsite.html"><button class="openwindow" data-windowpath="pages/projects-thiswebsite.html">
+                <div>
+                    <img src="assets/website-ss.png">
+                    <h1>this website</h1>
+                </div>
+            </button></a>
+        </div>
+    </body>
+</html>
