@@ -11,6 +11,7 @@ const clamp = (num, min, max) => Math.min(Math.max(num, min), max) // i miss gds
 
 async function createWindow(link, atCursor = false, posX = null, posY = null, width = "400px", height = "300px") { // make a window (iframes and embeds and such for content, cors tries to kill me every now and then but it's ok)
     let newWindow = document.body.appendChild(windowTemplate.content.cloneNode(true).firstElementChild);
+
     // setup 
     addDrag(newWindow);
     if (atCursor) { // atCursor is a mouse event if true bc js kinda sucks
@@ -20,6 +21,7 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
     };
     newWindow.style.width = width || "400px", newWindow.style.height = height || "300px";
     newWindow.style.animation = "0.3s ease-out open-window";
+
     // add content
     let content = newWindow.appendChild(document.createElement("iframe"));
     content.style.overflow = "hidden";
@@ -30,11 +32,12 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
             try {
                 resolve();
             } catch (e) {
-                console.log("god damn it")
+                console.log("dangit");
                 reject();
             };
         });
     });
+
     // Attach proper open window things to buttons that need it (could have been a global script but this is fineeee)
     content.contentWindow.document.querySelectorAll(".openwindow").forEach((windowOpener) => {
         windowOpener.onclick = () => {
@@ -82,6 +85,10 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
     addStretch(newWindow.querySelector(".stretch-horizontal"), "X");
     addStretch(newWindow.querySelector(".stretch-vertical"), "Y");
 
+    // z-reordering
+    newWindow.addEventListener("mousedown", () => {focus(newWindow)});
+    content.addEventListener("mousedown", () => {focus(newWindow)});
+
     // create linked taskbar item
 
     var newTaskbarItem = taskbar.appendChild(taskbarItemTemplate.content.cloneNode(true).firstElementChild);
@@ -89,6 +96,14 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
     newTaskbarItem.innerText = windowHeader.querySelector("p").innerText;
 
     return newWindow;
+};
+
+function focus(focusWindow) {
+    for (const window of document.querySelectorAll(".window")) {
+        window.style.zIndex = "0"; // mmm scoping
+    };
+    console.log(document.querySelectorAll(".window"))
+    focusWindow.style.zIndex = "1";
 };
 
 function addDrag(element) { // based on the w3 example AGAIN bc i'm a dumbass
@@ -168,8 +183,6 @@ rightClickMenu.querySelector('#rightclickmenu-openfile').onclick = async functio
     rightClickMenu.style.display = "none";
 };
 
-createWindow("pages/start.html", false, "calc(50vw - 400px)", "calc(50vh - 300px)", "800px", "600px");
-
 document.querySelector("#open-start-page-button").onclick = () => createWindow("pages/start.html");
 
 function setTime() {
@@ -179,7 +192,9 @@ function setTime() {
 
 setInterval(setTime, 1000);
 
-if (window.innerWidth <= 800) {
-    alert("The whole webOS thing works pretty badly on small or thin screens. The website will be opened in page mode instead.");
+if (window.innerHeight >= window.innerWidth * 1.3) {
+    alert("The webOS part works really badly on small or thin screens. You can still read over stuff, but it's gonna be super hard to navigate. ");
     location.href = "pages/start.html";
-}
+};
+
+createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");

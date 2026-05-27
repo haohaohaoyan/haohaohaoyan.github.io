@@ -1,7 +1,12 @@
+* {
+    color: black;
+}
+
 body {
     background-image: url("wallpaper.png");
-    background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 #taskbar {
@@ -134,6 +139,7 @@ body {
     image-rendering: pixelated;
     width: stretch;
     height: 80px;
+    cursor: pointer;
 }
 
 .appicon > img {
