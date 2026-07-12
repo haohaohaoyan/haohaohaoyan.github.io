@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>doodle!</title>
+    </head>
+    <body>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 4px;
+            }
+
+            canvas {
+                display: flex;
+                width: 800;
+                height: 600;
+                object-fit: cover;
+                margin: auto;
+                border: 2px solid black;
+            }
+        </style>
+        <div>
+            <!-- big div for all of the options-->
+            <input type="color">
+            <button>pen ig</button>
+            <button>eraser ig</button>
+        </div>
+        <canvas>
+            <!-- actual drawing canvas -->
+        </canvas>
+        <script>
+            var canvas = document.querySelector("canvas"); // only ever will be one canvas on this page
+            var canvasContext = canvas.getContext("2d");
+
+            var current_tool = "pen";
+            var current_stroke_points = [];
+
+            // For pen, eraser, etc.
+            function handleDrawPen(event) {
+                event.preventDefault();
+                // Start drawing by beginning path and moving to current mouse start pos
+                canvasContext.moveTo(event.clientX, event.clientY);
+                canvasContext.beginPath();
+                // Clean dragging my beloved
+                document.body.onmousemove = dragDraw, document.body.onmouseup = stopDraw, document.body.onmouseleave = stopDraw;
+
+                function dragDraw(event) {
+                    event.preventDefault();
+                    // constantly draw as you are dragging
+                    // THANK GOODNESS I DONT HAVE TO CONSIDER WINDOW MOVEMENT & SIZE WOOHOO
+                    var translatedX = event.clientX - canvas.getBoundingClientRect().left;
+                    var translatedY = event.clientY - canvas.getBoundingClientRect().top;
+                    canvasContext.lineTo(translatedX, translatedY);
+                    canvasContext.stroke();
+                };
+
+                function stopDraw(event) {
+                    // kills event listeners
+                    event.preventDefault();
+                    document.body.onmousemove = null, document.body.onmouseup = null, document.body.onmouseleave = null;
+                };
+            };
+
+            // Function specifically for when you tap for making a dot
+            function drawPenDot(event) {
+                event.preventDefault();
+                canvasContent.moveTo(event.clientX, event.clientY)
+            };
+
+            // Set resolution of canvas
+
+            canvas.height = 600;
+            canvas.width = 800;
+
+            canvas.onmousedown = handleDrawPen;
+            canvas.onclick = drawPenDot;
+        </script>
+    </body>
+</html>

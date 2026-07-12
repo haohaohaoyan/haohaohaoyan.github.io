@@ -94,6 +94,7 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
     var newTaskbarItem = taskbar.appendChild(taskbarItemTemplate.content.cloneNode(true).firstElementChild);
     newTaskbarItem.dataset.window = newWindow.id;
     newTaskbarItem.innerText = windowHeader.querySelector("p").innerText;
+    newTaskbarItem.addEventListener("click", (e) => {e.preventDefault(), focus(newWindow)}) // Actions should continue on other pages, but shouldn't highlight for the taskbar items
 
     return newWindow;
 };
@@ -102,7 +103,6 @@ function focus(focusWindow) {
     for (const window of document.querySelectorAll(".window")) {
         window.style.zIndex = "0"; // mmm scoping
     };
-    console.log(document.querySelectorAll(".window"))
     focusWindow.style.zIndex = "1";
 };
 
@@ -197,4 +197,7 @@ if (window.innerHeight >= window.innerWidth * 1.3) {
     location.href = "pages/start.html";
 };
 
-createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");
+// createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");
+
+// debug
+createWindow("pages/draw.html")
