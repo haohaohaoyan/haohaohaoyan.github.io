@@ -143,10 +143,11 @@
             // Button that nukes the damn canvas
             document.querySelector("#wipebutton").addEventListener("click", () => {
                 canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-                //document.querySelector("#explosiongif").style.display = "block";
+                document.querySelector("#explosiongif").style.display = "block";
+                setTimeout(() => {
+                    document.querySelector("#explosiongif").style.display = "none";
+                }, 1360);
             });
-            //still fixing that
-            //document.querySelector("#explosiongif").addEventListener("load", () => {console.log("a;sdcoma;sldkckls;adcmnl;n")});
 
             // Set resolution of canvas, linejoin
 

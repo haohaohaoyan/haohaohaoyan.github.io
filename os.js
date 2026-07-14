@@ -148,19 +148,23 @@ function addDrag(element) { // based on the w3 example AGAIN bc i'm a dumbass
 function addStretch(element, axis) { // practically the same as above. pretty unreadable too but it's the exact same logic as above
     // Uses event listeners instead to stack functions, specifically for diagonal resizer
     var n, changeN;
-    element.onmousedown = startDrag;
+    element.addEventListener("mousedown", startStretch);
     
-    function startDrag(event) {
+    function startStretch(event) {
         event.preventDefault();
         n = event[`client` + axis];
        document.querySelectorAll('iframe').forEach((element) => element.style.pointerEvents = "none");
-        document.onmousemove = function(event) {
+        document.addEventListener("mousemove", stretch);
+        document.addEventListener("mouseup", endStretch);
+        
+        function stretch(event) {
             event.preventDefault();
             changeN = n - event['client' + axis], n = event['client' + axis];
             element.parentNode.style[{"X": "width", "Y": "height"}[axis]] = `${Math.max(Number(element.parentNode.style[{"X": "width", "Y": "height"}[axis]].replace('px', '')) - changeN, 300)}px`;
         };
-        document.onmouseup = function() {
-            document.onmousemove = null, document.onmouseup = null;
+        function endStretch() {
+            document.removeEventListener("mousemove", stretch);
+            document.removeEventListener("mouseup", endStretch);
             document.querySelectorAll('iframe').forEach((element) => element.style.pointerEvents = "all");
         };
     };
