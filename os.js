@@ -89,24 +89,28 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
     addStretch(newWindow.querySelector(".stretch-diagonal"), "Y");
 
     // z-reordering
-    newWindow.addEventListener("mousedown", () => {focus(newWindow)});
-    content.addEventListener("mousedown", () => {focus(newWindow)});
+    newWindow.addEventListener("mousedown", () => {focusWindow(newWindow)});
+    content.addEventListener("mousedown", () => {focusWindow(newWindow)});
 
     // create linked taskbar item
 
     var newTaskbarItem = taskbar.appendChild(taskbarItemTemplate.content.cloneNode(true).firstElementChild);
     newTaskbarItem.dataset.window = newWindow.id;
     newTaskbarItem.innerText = windowHeader.querySelector("p").innerText;
-    newTaskbarItem.addEventListener("click", (e) => {e.preventDefault(), focus(newWindow)}) // Actions should continue on other pages, but shouldn't highlight for the taskbar items
+    newTaskbarItem.addEventListener("click", (e) => {e.preventDefault(), focusWindow(newWindow)}) // Actions should continue on other pages, but shouldn't highlight for the taskbar items
+
+    // focus the window so you can actually see it??????
+
+    focusWindow(newWindow);
 
     return newWindow;
 };
 
-function focus(focusWindow) {
+function focusWindow(window) {
     for (const window of document.querySelectorAll(".window")) {
         window.style.zIndex = "0"; // mmm scoping
     };
-    focusWindow.style.zIndex = "1";
+    window.style.zIndex = "1";
 };
 
 function addDrag(element) { // based on the w3 example AGAIN bc i'm a dumbass

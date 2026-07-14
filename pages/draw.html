@@ -28,15 +28,25 @@
                 border-radius: 4px;;
                 background-color: white;
             }
+
+            #explosiongif {
+                pointer-events: none;
+                display: none;
+                position: absolute;
+                top: 0;
+                z-index: 9999;
+                height: 100%;
+                margin: auto;
+            }
         </style>
         <div id="toolbar">
             <!-- big div for all of the options-->
             <select id="tool-select">
                 <!-- tool selection-->
-                <option value="pen">Pen</option>
-                <option value="eraser">Eraser</option>
-                <option value="brush">Image brush</option>
-                <option value="wipe">Clear Screen</option>
+                <option value="pen" title="Your standard drawing tool">Pen</option>
+                <option value="eraser" title="White pen with a different name">Eraser</option>
+                <option value="brush" title="Stamp & draw with images">Image brush</option>
+                <option value="wipe" title="Clear the canvas">Clear Screen</option>
             </select>
             <input id="color" type="color">
             <input id="size" type="range" min="1" max="32" name="Size" value = "1">
@@ -45,6 +55,7 @@
         <canvas>
             <!-- actual drawing canvas -->
         </canvas>
+        <img id="explosiongif" src="assets/kaboom.gif">
         <script>
             var canvas = document.querySelector("canvas"); // only ever will be one canvas on this page
             var canvasContext = canvas.getContext("2d");
@@ -54,10 +65,11 @@
 
             function chooseTool(newTool) {
                 currentTool = newTool;
-                // Hides all tool-specific options
+                // Hides all tool-specific options & reverts to default
                 for (option of ["#color", "#size", "#wipebutton"]) {
                     document.querySelector(option).style.display = "none";
                 };
+                canvasContext.strokeStyle = document.querySelector("#color").value;
                 // Sets defaults, shows & necessary tools
                 switch (newTool) {
                     case "pen" :
@@ -67,7 +79,8 @@
                         break; // js WHYYYYYYYYYYYY
                     case "eraser":
                         document.querySelector("#size").style.display = "inline-block";
-                        canvas.onmousedown = null;
+                        canvasContext.strokeStyle = "white";
+                        canvas.onmousedown = handleDrawPen;
                         break;
                     case "brush":
                         break; // not existant yet
@@ -95,8 +108,8 @@
                 function dragDraw(event) {
                     event.preventDefault();
                     // constantly draw as you are dragging
-                    // don't draw if it's too close to the last point
-                    if (Math.abs(event.clientX - lastX) >= 1 && Math.abs(event.clientY - lastY) >= 1) {
+                    // don't draw if it's too close to the last point, prevents jagged lines
+                    if (Math.abs(event.clientX - lastX) > 1 || Math.abs(event.clientY - lastY) > 1) {
                         // THANK GOODNESS I DONT HAVE TO CONSIDER WINDOW MOVEMENT & SIZE WOOHOO
                         var translatedX = event.clientX - canvas.getBoundingClientRect().left;
                         var translatedY = event.clientY - canvas.getBoundingClientRect().top;
@@ -125,7 +138,15 @@
             // Set stroke size from size setter
             document.querySelector("#size").addEventListener("change", () => {
                 canvasContext.lineWidth = document.querySelector("#size").value
-            })
+            });
+
+            // Button that nukes the damn canvas
+            document.querySelector("#wipebutton").addEventListener("click", () => {
+                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+                //document.querySelector("#explosiongif").style.display = "block";
+            });
+            //still fixing that
+            //document.querySelector("#explosiongif").addEventListener("load", () => {console.log("a;sdcoma;sldkckls;adcmnl;n")});
 
             // Set resolution of canvas, linejoin
 
