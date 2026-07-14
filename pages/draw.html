@@ -12,19 +12,35 @@
             }
 
             canvas {
-                display: flex;
+                display: block;
                 width: 800;
                 height: 600;
-                object-fit: cover;
-                margin: auto;
+                margin: auto auto auto auto;
                 border: 2px solid black;
             }
+
+            #toolbar {
+                position: fixed;
+                padding: 5px;
+                top: 8px;
+                left: 8px;
+                border: 2px solid black;
+                border-radius: 4px;;
+                background-color: white;
+            }
         </style>
-        <div>
+        <div id="toolbar">
             <!-- big div for all of the options-->
-            <input type="color">
-            <button>pen ig</button>
-            <button>eraser ig</button>
+            <select id="tool-select">
+                <!-- tool selection-->
+                <option value="pen">Pen</option>
+                <option value="eraser">Eraser</option>
+                <option value="brush">Image brush</option>
+                <option value="wipe">Clear Screen</option>
+            </select>
+            <input id="color" type="color">
+            <input id="size" type="range" min="1" max="32" name="Size" value = "1">
+            <button id="wipebutton">Nuke EVERYTHING</button>
         </div>
         <canvas>
             <!-- actual drawing canvas -->
@@ -32,9 +48,34 @@
         <script>
             var canvas = document.querySelector("canvas"); // only ever will be one canvas on this page
             var canvasContext = canvas.getContext("2d");
+            var toolSelect = document.querySelector("#tool-select");
 
-            var current_tool = "pen";
-            var current_stroke_points = [];
+            var currentTool = "pen";
+
+            function chooseTool(newTool) {
+                currentTool = newTool;
+                // Hides all tool-specific options
+                for (option of ["#color", "#size", "#wipebutton"]) {
+                    document.querySelector(option).style.display = "none";
+                };
+                // Sets defaults, shows & necessary tools
+                switch (newTool) {
+                    case "pen" :
+                        document.querySelector("#color").style.display = "inline-block";
+                        document.querySelector("#size").style.display = "inline-block";
+                        canvas.onmousedown = handleDrawPen;
+                        break; // js WHYYYYYYYYYYYY
+                    case "eraser":
+                        document.querySelector("#size").style.display = "inline-block";
+                        canvas.onmousedown = null;
+                        break;
+                    case "brush":
+                        break; // not existant yet
+                    case "wipe":
+                        document.querySelector("#wipebutton").style.display = "inline-block";
+                        break;
+                };
+            };
 
             // For pen, eraser, etc.
             function handleDrawPen(event) {
@@ -45,36 +86,61 @@
                 // Clean dragging my beloved
                 document.body.onmousemove = dragDraw, document.body.onmouseup = stopDraw, document.body.onmouseleave = stopDraw;
 
+                // create current path
+                var currentPath = new Path2D;
+
+                // last draw position
+                var lastX = event.clientX, lastY = event.clientY;
+
                 function dragDraw(event) {
                     event.preventDefault();
                     // constantly draw as you are dragging
-                    // THANK GOODNESS I DONT HAVE TO CONSIDER WINDOW MOVEMENT & SIZE WOOHOO
-                    var translatedX = event.clientX - canvas.getBoundingClientRect().left;
-                    var translatedY = event.clientY - canvas.getBoundingClientRect().top;
-                    canvasContext.lineTo(translatedX, translatedY);
-                    canvasContext.stroke();
-                };
+                    // don't draw if it's too close to the last point
+                    if (Math.abs(event.clientX - lastX) >= 1 && Math.abs(event.clientY - lastY) >= 1) {
+                        // THANK GOODNESS I DONT HAVE TO CONSIDER WINDOW MOVEMENT & SIZE WOOHOO
+                        var translatedX = event.clientX - canvas.getBoundingClientRect().left;
+                        var translatedY = event.clientY - canvas.getBoundingClientRect().top;
+                        // Add point to current path
+                        currentPath.lineTo(translatedX, translatedY);
+                        canvasContext.stroke(currentPath);
+                        // Update values
+                        lastX = event.clientX, lastY = event.clientY;
+                    };
+                }; 
 
                 function stopDraw(event) {
                     // kills event listeners
                     event.preventDefault();
+                    // do the draw thing anyway for dots 
+                    dragDraw(event);
                     document.body.onmousemove = null, document.body.onmouseup = null, document.body.onmouseleave = null;
                 };
             };
 
-            // Function specifically for when you tap for making a dot
-            function drawPenDot(event) {
-                event.preventDefault();
-                canvasContent.moveTo(event.clientX, event.clientY)
-            };
+            // Set color from color input
+            document.querySelector("#color").addEventListener("change", () => {
+                canvasContext.strokeStyle = document.querySelector("#color").value;
+            });
 
-            // Set resolution of canvas
+            // Set stroke size from size setter
+            document.querySelector("#size").addEventListener("change", () => {
+                canvasContext.lineWidth = document.querySelector("#size").value
+            })
+
+            // Set resolution of canvas, linejoin
 
             canvas.height = 600;
             canvas.width = 800;
 
-            canvas.onmousedown = handleDrawPen;
-            canvas.onclick = drawPenDot;
+            canvasContext.lineJoin = "round";
+
+            toolSelect.addEventListener("change", () => {
+                chooseTool(toolSelect.value);
+            });
+
+            // Set default tool as pen
+
+            chooseTool("pen");
         </script>
     </body>
 </html>

@@ -95,7 +95,7 @@ body {
 .stretch-horizontal {
     cursor: ew-resize;
     width: 10px;
-    height: 100%;
+    height: 90%;
     position: absolute;
     right: -5px;
     top: 0px;
@@ -103,11 +103,20 @@ body {
 
 .stretch-vertical {
     cursor: ns-resize;
-    width: 100%;
+    width: 90%;
     height: 10px;
     position: absolute;
     bottom: -5px;
     left: 0px;
+}
+
+.stretch-diagonal {
+    cursor: nwse-resize;
+    width: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
 }
 
 #rightclickmenu {

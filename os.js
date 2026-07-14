@@ -84,6 +84,9 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
 
     addStretch(newWindow.querySelector(".stretch-horizontal"), "X");
     addStretch(newWindow.querySelector(".stretch-vertical"), "Y");
+    // add twice for diag resizer
+    addStretch(newWindow.querySelector(".stretch-diagonal"), "X");
+    addStretch(newWindow.querySelector(".stretch-diagonal"), "Y");
 
     // z-reordering
     newWindow.addEventListener("mousedown", () => {focus(newWindow)});
@@ -139,8 +142,11 @@ function addDrag(element) { // based on the w3 example AGAIN bc i'm a dumbass
 };
 
 function addStretch(element, axis) { // practically the same as above. pretty unreadable too but it's the exact same logic as above
+    // Uses event listeners instead to stack functions, specifically for diagonal resizer
     var n, changeN;
-    element.onmousedown = function(event) {
+    element.onmousedown = startDrag;
+    
+    function startDrag(event) {
         event.preventDefault();
         n = event[`client` + axis];
        document.querySelectorAll('iframe').forEach((element) => element.style.pointerEvents = "none");
