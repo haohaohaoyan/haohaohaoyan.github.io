@@ -11,9 +11,10 @@
                 padding: 4px;
             }
 
-            label {
+            label, p {
                 font-family: 'Courier New';
                 color: black;
+                margin: 0;
             }
 
             canvas {
@@ -30,10 +31,11 @@
                 padding: 5px;
                 top: 8px;
                 left: 8px;
+                max-width: 90%;
                 border: 2px solid black;
                 border-radius: 4px;;
                 background-color: white;
-                overflow-x: scroll;
+                overflow-x: auto;
                 white-space: nowrap;
             }
 
@@ -45,6 +47,10 @@
                 z-index: 9999;
                 height: 100%;
                 margin: auto;
+            }
+
+            #imagepreview {
+                width: 20px;
             }
 
             ::-webkit-scrollbar {
@@ -68,9 +74,11 @@
             </select>
             <input id="color" type="color">
             <input id="size" type="range" min="1" max="32" name="Size" value = "1">
+            <img id="imagepreview">
             <input id="imagesrc" type="text" placeholder="Image source link"> 
-            <input id="imagestampoption" type="checkbox">
+            <input id="imagestampoption" type="checkbox" checked>
             <label id="stamplabel" for="imagestampoption">Stamp mode</label>
+            <p id="colorpickerwarning">Press ESCAPE to cancel</p>
             <button id="wipebutton">Nuke EVERYTHING</button>
         </div>
         <div style="width: stretch; height: stretch; display: flex;">
@@ -83,23 +91,21 @@
             var canvas = document.querySelector("canvas"); // only ever will be one canvas on this page
             var canvasContext = canvas.getContext("2d");
             var toolSelect = document.querySelector("#tool-select");
-            var imageBase = new Image();
+            var imageBase = new Image;
 
             var eyedropperAvailable = false;
             // instance eyedropper
             if (window.EyeDropper) {
                 var eyedropper = new EyeDropper();
-                var eyedropperAvailable = true;
-            } else {
-                eyedropperAvailable = true
-            };
+                eyedropperAvailable = true;
+            }
 
             var currentTool = "pen";
 
             function chooseTool(newTool) {
                 currentTool = newTool;
                 // Hides all tool-specific options & reverts to default
-                for (option of ["#color", "#size", "#imagesrc", "#imagestampoption", "#wipebutton", "#stamplabel"]) {
+                for (option of ["#color", "#size", "#imagepreview", "#imagesrc", "#imagestampoption", "#wipebutton", "#stamplabel", "#colorpickerwarning"]) {
                     document.querySelector(option).style.display = "none";
                 };
                 canvasContext.strokeStyle = document.querySelector("#color").value;
@@ -116,12 +122,16 @@
                         canvas.onmousedown = handleDrawPen;
                         break;
                     case "brush":
+                        document.querySelector("#imagepreview").style.display = "inline-block"
                         document.querySelector("#imagesrc").style.display = "inline-block";
                         document.querySelector("#imagestampoption").style.display = "inline-block";
                         document.querySelector("#stamplabel").style.display = "inline-block";
-                        canvas.onmousedown = handleDrawPen;
+                        document.querySelector("#size").style.display = "inline-block";
+                        document.querySelector("#size").value = 16; // make the image scale 1/1
+                        canvas.onmousedown = imageBrush;
                         break;
                     case "colorpicker":
+                        document.querySelector("#colorpickerwarning").style.display = "inline-block";
                         if (!eyedropperAvailable) {
                             alert("Eyedropper function isn't available so this won't do anything.");
                             break;
@@ -133,7 +143,11 @@
                                     toolSelect.value = "pen";
                                     chooseTool("pen");
                                 }
-                            );
+                            ).catch((err) => {
+                                // Have to duplicate bc this isn't an async function and I want it to wait until color is selected
+                                toolSelect.value = "pen";
+                                chooseTool("pen");
+                            }); 
                             break;
                         };
                         break;
@@ -184,6 +198,27 @@
                 };
             };
 
+            // Function for drawing images
+            function imageBrush(event) {
+                event.preventDefault();
+                var scale = document.querySelector("#size").value;
+                // Setup translated mouse coordinates
+                var translatedX = event.clientX - canvas.getBoundingClientRect().left;
+                var translatedY = event.clientY - canvas.getBoundingClientRect().top;
+                // First check if stamp is on and draw a single image and quit
+                if (document.querySelector("#imagestampoption").checked) {
+                    try {
+                        canvasContext.drawImage(imageBase, 
+                        translatedX - ((scale / 16) * imageBase.width / 2), 
+                        translatedY - ((scale / 16) * imageBase.height / 2),
+                        dWidth = (scale / 16) * imageBase.width, dHeight = (scale / 16) * imageBase.height);
+                    } catch (err){
+                        console.log(errs)
+                        //if (err instanceof ReferenceError) {alert("No image set!");};  
+                    };
+                };
+            };
+
             // Set color from color input
             document.querySelector("#color").addEventListener("change", () => {
                 canvasContext.strokeStyle = document.querySelector("#color").value;
@@ -191,12 +226,13 @@
 
             // Set stroke size from size setter
             document.querySelector("#size").addEventListener("change", () => {
-                canvasContext.lineWidth = document.querySelector("#size").value
+                canvasContext.lineWidth = document.querySelector("#size").value;
             });
 
             // Set image brush source
             document.querySelector("#imagesrc").addEventListener("change", () => {
                 imageBase.src = document.querySelector("#imagesrc").value;
+                document.querySelector("#imagepreview").src = document.querySelector("#imagesrc").value;
             });
 
             // Button that nukes the damn canvas
@@ -216,7 +252,7 @@
                 explosion_timeout = setTimeout(() => {
                     explosiongifdisplay.style.display = "none";
                     explosiongifdisplay.src = "";
-                }, 1360);
+                }, 1360); // exact length of gif is 1.36 seconds
             });
 
             // Set resolution of canvas, line properties
