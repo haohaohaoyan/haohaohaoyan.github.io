@@ -95,7 +95,7 @@ body {
 .stretch-horizontal {
     cursor: ew-resize;
     width: 20px;
-    height: 90%;
+    height: calc(100% - 1em);
     position: absolute;
     right: -10px;
     top: 0px;
@@ -103,7 +103,7 @@ body {
 
 .stretch-vertical {
     cursor: ns-resize;
-    width: 90%;
+    width: calc(100% - 1em);
     height: 20px;
     position: absolute;
     bottom: -10px;
@@ -112,8 +112,8 @@ body {
 
 .stretch-diagonal {
     cursor: nwse-resize;
-    width: 10%;
-    height: 10%;
+    width: 2em;
+    height: 2em;
     position: absolute;
     bottom: -10px;
     right: -10px;

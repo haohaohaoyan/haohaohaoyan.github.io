@@ -26,11 +26,9 @@
                 border: 2px solid black;
             }
 
-            #toolbar {
+            .bar {
                 position: fixed;
                 padding: 5px;
-                top: 8px;
-                left: 8px;
                 max-width: 90%;
                 border: 2px solid black;
                 border-radius: 4px;;
@@ -39,11 +37,40 @@
                 white-space: nowrap;
             }
 
+            .tool {
+                top: 8px;
+                left: 8px;
+            }
+
+            .palette {
+                bottom: 8px;
+                right: 8px;
+            }
+
+            #addcolor {
+                background-color: white;
+                border: 2px solid black;
+                display: none;
+            }
+
+            #colorgrid {
+                display: grid;
+                grid-template-columns: 1.5em;
+                grid-template-rows: repeat(3, 1.5em);
+                grid-auto-flow: column;
+            }
+
+            .colorswatch {
+                width: 1.5em;
+                height: 1.5em;
+            }
+
             #explosiongif {
                 pointer-events: none;
                 display: none;
                 position: absolute;
                 top: 0;
+                justify-self: center;
                 z-index: 9999;
                 height: 100%;
                 margin: auto;
@@ -62,8 +89,8 @@
                 border: outset #bababa;
             }
         </style>
-        <div id="toolbar">
-            <!-- big div for all of the options-->
+        <div class="tool bar"> <!-- Class naming shenanigans-->
+            <!-- Top div for tool select & tool options-->
             <select id="tool-select">
                 <!-- tool selection-->
                 <option value="pen" title="Your standard drawing tool">Pen</option>
@@ -73,11 +100,12 @@
                 <option value="wipe" title="Clear the canvas">Clear Screen</option>
             </select>
             <input id="color" type="color">
+            <button id="addcolor">Add to Palette</button>
             <input id="size" type="range" min="1" max="32" name="Size" value = "1">
             <img id="imagepreview">
             <input id="imagesrc" type="text" placeholder="Image source link"> 
             <input id="imagestampoption" type="checkbox" checked>
-            <label id="stamplabel" for="imagestampoption">Stamp mode</label>
+            <label id="stamplabel" for="imagestampoption" title="When checked, the image is only drawn once and then stops.">Stamp mode</label>
             <p id="colorpickerwarning">Press ESCAPE to cancel</p>
             <button id="wipebutton">Nuke EVERYTHING</button>
         </div>
@@ -86,11 +114,21 @@
                 <!-- actual drawing canvas -->
             </canvas>
         </div>
+
+        <div class="palette bar">
+            <!-- Bar for storing color selections & images -->
+             <div id="colorgrid">
+             </div>
+        </div>
+
         <img id="explosiongif" src="assets/kaboom.gif">
         <script>
             var canvas = document.querySelector("canvas"); // only ever will be one canvas on this page
             var canvasContext = canvas.getContext("2d");
             var toolSelect = document.querySelector("#tool-select");
+
+            var colorPalette= document.querySelector("#colorgrid");
+
             var imageBase = new Image;
 
             var eyedropperAvailable = false;
@@ -100,12 +138,15 @@
                 eyedropperAvailable = true;
             }
 
+            var currentPalette = [];
             var currentTool = "pen";
 
             function chooseTool(newTool) {
                 currentTool = newTool;
                 // Hides all tool-specific options & reverts to default
-                for (option of ["#color", "#size", "#imagepreview", "#imagesrc", "#imagestampoption", "#wipebutton", "#stamplabel", "#colorpickerwarning"]) {
+                for (option of ["#color", "#size", "#imagepreview", "#imagesrc",
+                    "#imagestampoption", "#wipebutton", "#stamplabel", "#colorpickerwarning",
+                    "#addcolor"]) {
                     document.querySelector(option).style.display = "none";
                 };
                 canvasContext.strokeStyle = document.querySelector("#color").value;
@@ -139,9 +180,13 @@
                             eyedropper.open().then(
                                 (color) => {
                                     document.querySelector("#color").value = color.sRGBHex;
-                                    // changing the value of the color selection also changes stroke style automatically
+                                    // color change takes effect on toolchange
                                     toolSelect.value = "pen";
                                     chooseTool("pen");
+                                    // Check for new color just in case
+                                    if (!currentPalette.includes(document.querySelector("#color").value)) {
+                                        document.querySelector("#addcolor").style.display = "inline-block";
+                                    };
                                 }
                             ).catch((err) => {
                                 // Have to duplicate bc this isn't an async function and I want it to wait until color is selected
@@ -216,13 +261,42 @@
                         console.log(errs)
                         //if (err instanceof ReferenceError) {alert("No image set!");};  
                     };
-                };
+                } else { // this means that it's the regular brush draw thing
+                    // pretty much same as regular draw function, functions are in this scope only
+                    
+                }
             };
+
+            // Function for adding a certain color to the palette
+            function addToPalette(color) {
+                var newSwatch = document.createElement("div");
+                newSwatch.classList = "colorswatch";
+                newSwatch.style.backgroundColor = color;
+                newSwatch.title = color;
+                colorPalette.insertAdjacentElement("beforeend", newSwatch);
+                newSwatch.onclick = (event) => {
+                    event.preventDefault();
+                    canvasContext.strokeStyle = color;
+                    document.querySelector("#color").value = color;
+                };
+                // add to color tracker for adding new colors
+                currentPalette.push(color);
+            };
+
+            // Add to Palette button adds current colorpicker value to palette
+            document.querySelector("#addcolor").addEventListener("click", () => {
+                addToPalette(document.querySelector("#color").value);
+                document.querySelector("#addcolor").style.display = "none";
+            });
 
             // Set color from color input
             document.querySelector("#color").addEventListener("change", () => {
                 canvasContext.strokeStyle = document.querySelector("#color").value;
-            });
+                // Hide button first
+                document.querySelector("#addcolor").style.display = "none";
+                if (!currentPalette.includes(document.querySelector("#color").value)) {
+                    document.querySelector("#addcolor").style.display = "inline-block";
+            }});
 
             // Set stroke size from size setter
             document.querySelector("#size").addEventListener("change", () => {
@@ -247,7 +321,7 @@
                 canvasContext.clearRect(0, 0, canvas.width, canvas.height);
                 // Resets src to restart gif
                 explosiongifdisplay.src = "assets/kaboom.gif";
-                explosiongifdisplay.style.display = "flex";
+                explosiongifdisplay.style.display = "inline-block";
                 // set timeout to make it kill itself
                 explosion_timeout = setTimeout(() => {
                     explosiongifdisplay.style.display = "none";
@@ -266,6 +340,16 @@
             toolSelect.addEventListener("change", () => {
                 chooseTool(toolSelect.value);
             });
+
+            // Populate default colors (PICO 8 Palette)
+            for (color of ["#000000", "#1d2b53" , "#7e2553", 
+                "#008751", "#ab523b", "#5f574f", 
+                "#c2c3c7", "#ffffff", "#ff004d", 
+                "#ffa300", "#ffec27", "#00e436",
+                "#29adff", "#83769c", "#ff77ab",
+                "#ffccaa"]) {
+                addToPalette(color);
+            };
 
             // Set default tool as pen
 
