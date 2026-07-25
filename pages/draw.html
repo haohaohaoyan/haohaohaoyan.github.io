@@ -104,8 +104,12 @@
             <input id="size" type="range" min="1" max="32" name="Size" value = "1">
             <img id="imagepreview">
             <input id="imagesrc" type="text" placeholder="Image source link"> 
-            <input id="imagestampoption" type="checkbox" checked>
-            <label id="stamplabel" for="imagestampoption" title="When checked, the image is only drawn once and then stops.">Stamp mode</label>
+            <!-- Select for the image brush options-->
+            <select id="image-brush-select">
+                <option value="stamp" title="Click to draw an image exactly once and then stop, like a stamp">Stamp</option>
+                <option value="brush" title="Drag & smear image all over canvas">Brush</option>
+                <option value="dotted" title="Brush, but images are spaced out">Spaced brush</option>
+            </select>
             <p id="colorpickerwarning">Press ESCAPE to cancel</p>
             <button id="wipebutton">Nuke EVERYTHING</button>
         </div>
@@ -145,7 +149,7 @@
                 currentTool = newTool;
                 // Hides all tool-specific options & reverts to default
                 for (option of ["#color", "#size", "#imagepreview", "#imagesrc",
-                    "#imagestampoption", "#wipebutton", "#stamplabel", "#colorpickerwarning",
+                    "#image-brush-select", "#wipebutton", "#colorpickerwarning",
                     "#addcolor"]) {
                     document.querySelector(option).style.display = "none";
                 };
@@ -165,8 +169,7 @@
                     case "brush":
                         document.querySelector("#imagepreview").style.display = "inline-block"
                         document.querySelector("#imagesrc").style.display = "inline-block";
-                        document.querySelector("#imagestampoption").style.display = "inline-block";
-                        document.querySelector("#stamplabel").style.display = "inline-block";
+                        document.querySelector("#image-brush-select").style.display = "inline-block";
                         document.querySelector("#size").style.display = "inline-block";
                         document.querySelector("#size").value = 16; // make the image scale 1/1
                         canvas.onmousedown = imageBrush;
@@ -210,7 +213,7 @@
                 canvasContext.moveTo(event.clientX, event.clientY);
                 canvasContext.beginPath();
                 // Clean dragging my beloved
-                document.body.onmousemove = dragDraw, document.body.onmouseup = stopDraw, document.body.onmouseleave = stopDraw;
+                document.onmousemove = dragDraw, document.onmouseup = stopDraw, document.onmouseleave = stopDraw;
 
                 // create current path
                 var currentPath = new Path2D;
@@ -239,7 +242,8 @@
                     event.preventDefault();
                     // do the draw thing anyway for dots 
                     dragDraw(event);
-                    document.body.onmousemove = null, document.body.onmouseup = null, document.body.onmouseleave = null;
+                    dragDraw(event);
+                    document.onmousemove = null, document.onmouseup = null, document.onmouseleave = null;
                 };
             };
 
@@ -250,20 +254,50 @@
                 // Setup translated mouse coordinates
                 var translatedX = event.clientX - canvas.getBoundingClientRect().left;
                 var translatedY = event.clientY - canvas.getBoundingClientRect().top;
+                // Check mode
+                var brushMode = document.querySelector("#image-brush-select").value;
                 // First check if stamp is on and draw a single image and quit
-                if (document.querySelector("#imagestampoption").checked) {
+                if (brushMode == "stamp") {
                     try {
                         canvasContext.drawImage(imageBase, 
                         translatedX - ((scale / 16) * imageBase.width / 2), 
                         translatedY - ((scale / 16) * imageBase.height / 2),
                         dWidth = (scale / 16) * imageBase.width, dHeight = (scale / 16) * imageBase.height);
                     } catch (err){
-                        console.log(errs)
-                        //if (err instanceof ReferenceError) {alert("No image set!");};  
+                        if (err instanceof ReferenceError) {alert("No image set!");};  
                     };
                 } else { // this means that it's the regular brush draw thing
                     // pretty much same as regular draw function, functions are in this scope only
+                    document.onmousemove = dragBrush, document.onmouseup = stopBrush, document.onmouseleave = stopBrush;
+
+                    // store previous location
+                    var lastX = event.clientX, lastY = event.clientY;
+                    // draw one to start it off
+                    canvasContext.drawImage(imageBase, 
+                        translatedX - ((scale / 16) * imageBase.width / 2), 
+                        translatedY - ((scale / 16) * imageBase.height / 2),
+                        dWidth = (scale / 16) * imageBase.width, dHeight = (scale / 16) * imageBase.height);
                     
+                    function dragBrush(event) {
+                        event.preventDefault();
+                        if (Math.abs(event.clientX - lastX) > ((brushMode == "dotted") ? ((scale / 16) * imageBase.width) : 1)
+                            || Math.abs(event.clientY - lastY) > ((brushMode == "dotted") ? ((scale / 16) * imageBase.height) : 1)) {
+                            var translatedX = event.clientX - canvas.getBoundingClientRect().left;
+                            var translatedY = event.clientY - canvas.getBoundingClientRect().top;
+                            // draw image
+                            canvasContext.drawImage(imageBase, 
+                                translatedX - ((scale / 16) * imageBase.width / 2), 
+                                translatedY - ((scale / 16) * imageBase.height / 2),
+                                dWidth = (scale / 16) * imageBase.width, dHeight = (scale / 16) * imageBase.height);
+                            // Update values
+                            lastX = event.clientX, lastY = event.clientY;
+                        };
+                    }
+
+                    function stopBrush() {
+                        event.preventDefault()
+                        document.onmousemove = null, document.onmouseup = null, document.onmouseleave = null;
+                    }
                 }
             };
 
@@ -305,9 +339,27 @@
 
             // Set image brush source
             document.querySelector("#imagesrc").addEventListener("change", () => {
-                imageBase.src = document.querySelector("#imagesrc").value;
-                document.querySelector("#imagepreview").src = document.querySelector("#imagesrc").value;
+                fetch(document.querySelector("#imagesrc").value).then((response) => {
+                    console.log(response);
+                    if (!response.ok) {
+                        // No way to ignore the actual error
+                        alert("No image there!");
+                        imageBase.src = "//:0";
+                    } else {
+                        imageBase.src = document.querySelector("#imagesrc").value;
+                        document.querySelector("#imagepreview").src = document.querySelector("#imagesrc").value;
+                    }
+                });
             });
+
+            // Attached to image in case the thing isn't an image
+            imageBase.onerror = () => {
+                if (imageBase.src != "//:0") {
+                    alert("That isn't an image!");
+                    imageBase.src = "//:0"; // somehow this properly nulls it out? thanks stackoverflow
+                    return
+                }
+            };
 
             // Button that nukes the damn canvas
             var explosion_timeout;
