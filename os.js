@@ -9,7 +9,8 @@ var windowList = []
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max) // i miss gdscript
 
-async function createWindow(link, atCursor = false, posX = null, posY = null, width = "400px", height = "300px") { // make a window (iframes and embeds and such for content, cors tries to kill me every now and then but it's ok)
+async function createWindow(link, atCursor = false, posX = null, posY = null, width = "400px", height = "300px") { 
+    // make a window (iframes and embeds and such for content, cors tries to kill me every now and then but it's ok)
     let newWindow = document.body.appendChild(windowTemplate.content.cloneNode(true).firstElementChild);
 
     // setup 
@@ -38,6 +39,13 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
         });
     });
 
+    // Generate window id for linking, makes sure there are no duplicates
+    newWindow.id = `w${String(Math.floor(Math.random() * 1000)).padStart(3, "0")}`;
+    while (windowList.includes(newWindow.id)) {
+        newWindow.id = `w${String(Math.floor(Math.random() * 1000)).padStart(3, "0")}`;
+    };
+    windowList.push(newWindow.id);
+
     // Attach proper open window things to buttons that need it (could have been a global script but this is fineeee)
     content.contentWindow.document.querySelectorAll(".openwindow").forEach((windowOpener) => {
         windowOpener.onclick = () => {
@@ -46,10 +54,13 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
         }; 
     });
 
-    while (windowList.includes(newWindow.id)) {
-        newWindow.id = String(Math.floor(Math.random() * 1000)).padStart(3, "0");
-    };
-    windowList.push(newWindow.id);
+    // Attach script to self if scriptreq tag exists
+    if (content.contentWindow.document.querySelector("#scriptreq")) {
+        var newScript = document.createElement("script");
+        newScript.src = content.contentWindow.document.querySelector("#scriptreq").innerText;
+        document.body.insertAdjacentElement("beforeend", newScript);
+        newScript.dataset.window = newWindow.id;
+    }
 
     // header bar funcs
     let windowHeader = newWindow.querySelector(".headerbar");
@@ -67,6 +78,10 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
         newWindow.style.pointerEvents = "none";
         newWindow.addEventListener("animationend", function() {
             taskbar.querySelector(`[data-window="${newWindow.id}"]`).remove();
+            if (script = document.querySelector(`script[data-window="${newWindow.id}"]`)) {
+                // Declare and check
+                script.remove();
+            };
             newWindow.remove();
         });
     };
@@ -214,4 +229,5 @@ if (window.innerHeight >= window.innerWidth * 1.3) {
 // createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");
 
 // debug
-createWindow("pages/draw.html")
+createWindow("pages/draw.html");
+createWindow("pages/missilebutton.html");
