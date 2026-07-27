@@ -226,8 +226,10 @@ if (window.innerHeight >= window.innerWidth * 1.3) {
     location.href = "pages/start.html";
 };
 
-// createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");
+createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");
 
 // debug
-createWindow("pages/draw.html");
-createWindow("pages/missilebutton.html");
+//createWindow("pages/draw.html");
+//createWindow("pages/missilebutton.html");
+
+console.log("Did you expect anything here?");

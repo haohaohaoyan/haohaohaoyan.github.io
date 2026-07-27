@@ -66,6 +66,22 @@
                 height: 1.5em;
             }
 
+            #imagegrid {
+                display: grid;
+                grid-template-columns: 4.5em;
+                grid-template-rows: 4.5em;
+                grid-auto-flow: column;
+                overflow-x: auto;
+                max-width: 9em;
+                min-width: 4.5em;
+            }
+
+            .qaimage {
+                width: 4.5em;
+                height: 4.5em;
+                margin: 0;
+            }
+
             #explosiongif {
                 pointer-events: none;
                 display: none;
@@ -81,12 +97,14 @@
                 width: 20px;
             }
 
-            #addcolor {
+            #addcolor, #addimage {
                 display: none;
             }
 
             ::-webkit-scrollbar {
                 background-color: #cdcdcd;
+                width: 10px;
+                height: 10px;
             }
 
             ::-webkit-scrollbar-thumb {
@@ -105,10 +123,11 @@
                 <option value="wipe" title="Clear the canvas">Clear Screen</option>
             </select>
             <input id="color" type="color">
-            <button id="addcolor" style="display: none">Add to Palette</button>
+            <button id="addcolor">Add to Palette</button>
             <input id="size" type="range" min="1" max="32" name="Size" value = "1">
             <img id="imagepreview">
             <input id="imagesrc" type="text" placeholder="Image source link"> 
+            <button id="addimage">Add Image to Palette</button>
             <!-- Select for the image brush options-->
             <select id="image-brush-select">
                 <option value="stamp" title="Click to draw an image exactly once and then stop, like a stamp">Stamp</option>
@@ -127,6 +146,7 @@
         <div class="palette bar">
             <!-- Bar for storing color selections, images, and other universal tools -->
             <button id="savecanvas">Save Canvas</button>
+            <button>no undo/redo yet wait a bit</button>
             <div id="colorgrid">
             </div>
             <div id="imagegrid">
@@ -141,6 +161,7 @@
             var toolSelect = document.querySelector("#tool-select");
 
             var colorPalette= document.querySelector("#colorgrid");
+            var imagePalette= document.querySelector("#imagegrid");
 
             var imageBase = new Image;
 
@@ -152,6 +173,7 @@
             }
 
             var currentPalette = [];
+            var currentImages = [];
             var currentTool = "pen";
 
             function chooseTool(newTool) {
@@ -163,6 +185,9 @@
                     document.querySelector(option).style.display = "none";
                 };
                 canvasContext.strokeStyle = document.querySelector("#color").value;
+                toolSelect.value = newTool;
+                document.querySelector("#size").value = 5;
+                canvasContext.lineWidth = document.querySelector("#size").value;
                 // Sets defaults, shows & necessary tools
                 switch (newTool) {
                     case "pen" :
@@ -321,6 +346,7 @@
                     event.preventDefault();
                     canvasContext.strokeStyle = color;
                     document.querySelector("#color").value = color;
+                    chooseTool("pen");
                 };
                 // add to color tracker for adding new colors
                 currentPalette.push(color);
@@ -330,6 +356,28 @@
             document.querySelector("#addcolor").addEventListener("click", () => {
                 addToPalette(document.querySelector("#color").value);
                 document.querySelector("#addcolor").style.display = "none";
+            });
+
+            // Function for adding image to image palette
+            function imageToPalette(src) {
+                var newImage = document.createElement("img");
+                newImage.classList = "qaimage"; // quick access image
+                newImage.src = src;
+                newImage.title = src;
+                imagePalette.insertAdjacentElement("beforeend", newImage);
+                newImage.onclick = (event) => {
+                    event.preventDefault();
+                    chooseTool("brush");
+                    document.querySelector("#imagesrc").value = src;
+                    imageBase.src = src; // no need for checking because if it's in the list then it is already checked
+                };
+                currentImages.push(src);
+            };
+
+            // add image button
+            document.querySelector("#addimage").addEventListener("click", () => {
+                imageToPalette(document.querySelector("#imagesrc").value);
+                document.querySelector("#addimage").style.display = "none";
             });
 
             // Set color from color input
@@ -356,6 +404,9 @@
                     } else {
                         imageBase.src = document.querySelector("#imagesrc").value;
                         document.querySelector("#imagepreview").src = document.querySelector("#imagesrc").value;
+                        if (!currentImages.includes(document.querySelector("#imagesrc").value)) {
+                            document.querySelector("#addimage").style.display = "inline-block";
+                        }
                     }
                 });
             });
@@ -428,6 +479,8 @@
                 "#ffccaa"]) {
                 addToPalette(color);
             };
+
+            imageToPalette("assets/ratpngicon.png");
 
             // Set default tool as pen
 

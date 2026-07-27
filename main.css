@@ -94,19 +94,19 @@ body {
 
 .stretch-horizontal {
     cursor: ew-resize;
-    width: 20px;
+    width: 10px;
     height: calc(100% - 1em);
     position: absolute;
-    right: -10px;
+    right: -5px;
     top: 0px;
 }
 
 .stretch-vertical {
     cursor: ns-resize;
     width: calc(100% - 1em);
-    height: 20px;
+    height: 10px;
     position: absolute;
-    bottom: -10px;
+    bottom: -5px;
     left: 0px;
 }
 
