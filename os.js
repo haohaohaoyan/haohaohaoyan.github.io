@@ -20,7 +20,7 @@ async function createWindow(link, atCursor = false, posX = null, posY = null, wi
     } else if (posX && posY) {
         newWindow.style.left = posX, newWindow.style.top = posY;
     };
-    newWindow.style.width = width || "400px", newWindow.style.height = height || "300px";
+    newWindow.style.width = width, newWindow.style.height = height;
     newWindow.style.animation = "0.3s ease-out open-window";
 
     // add content
@@ -226,10 +226,17 @@ if (window.innerHeight >= window.innerWidth * 1.3) {
     location.href = "pages/start.html";
 };
 
-createWindow("pages/start.html", false, "calc(30vw)", "calc(50vh - 15vw)", "calc(40vw)", "calc(30vw)");
+// converts vw to pixels because that's what the stretch functions expect
+createWindow("pages/start.html", false, `${window.innerWidth * 0.3}px`, `${window.innerHeight * 0.5 - window.innerWidth * 0.15}px`, `${window.innerWidth * 0.4}px`, `${window.innerWidth * 0.3}px`);
 
 // debug
 //createWindow("pages/draw.html");
 //createWindow("pages/missilebutton.html");
 
 console.log("Did you expect anything here?");
+
+//responses
+
+var yes = "Then be ready to be disappointed. There's nothing here.";
+var no = "Well good for you because I'm too lazy to put anything here right now";
+var maybe = "Huh????? Be clear, damn it";
