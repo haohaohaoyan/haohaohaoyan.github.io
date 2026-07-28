@@ -15,8 +15,8 @@ bigRedButton.addEventListener("click", () => {
     explosionImage.style.backgroundImage = "url('pages/assets/kaboom-sprites.png')"; // relative to index
     explosionImage.style.backgroundPositionX = "6840px";
     explosionImage.style.backgroundSize = "6840px";
-    explosionImage.style.top = `${Math.floor(Math.random() * window.innerHeight - 408)}px`;
-    explosionImage.style.left = `${Math.floor(Math.random() * window.innerWidth - 424)}px`;
+    explosionImage.style.top = `${Math.floor(Math.random() * (window.innerHeight - 408))}px`;
+    explosionImage.style.left = `${Math.floor(Math.random() * (window.innerWidth - 424))}px`;
     document.body.insertAdjacentElement("beforeend", explosionImage);
     var explosionFrame = 0;
     setInterval(() => {

@@ -27,7 +27,7 @@
             import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
             import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
 
-            var display = document.querySelector("#spinner");
+            three.Cache.enabled = true;
             // lowk clueless about three.js so i'm just following their tutorial
 
             const scene = new three.Scene();
@@ -64,6 +64,10 @@
                 isMouseDown = false;
             });
 
+            renderer.domElement.addEventListener("mouseleave", () => {
+                isMouseDown = false;
+            });
+
             renderer.setAnimationLoop((time) => {
                 // match viewport to window size
                 camera.aspect = (window.innerWidth / window.innerHeight);
@@ -72,6 +76,9 @@
                 renderer.render(scene, camera);
                 remote.children[1].position.lerp(new three.Vector3(0, isMouseDown ? -0.5 : 0 ,0), 0.3)
             });
+
+            // Launch missile signal
+            var launch = new Event("launch");
         </script>
     </body>
 </html>

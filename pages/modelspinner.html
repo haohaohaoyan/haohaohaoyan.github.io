@@ -5,7 +5,8 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js"
+					"three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+                    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
 				}
 			}
 		</script>
@@ -18,7 +19,10 @@
         </style>
         <script type="module">
             import * as three from 'three';
+            import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
+            import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
 
+            three.Cache.enabled = true;
             var display = document.querySelector("#spinner");
             // lowk clueless about three.js so i'm just following their tutorial
 
@@ -30,20 +34,27 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
-            // demo cube
-            const cube_geo = new three.BoxGeometry(1,3,1);
-            const material = new three.MeshNormalMaterial();
-            const cube = new three.Mesh(cube_geo, material);
-            scene.add(cube);
+            // load material
+            const matLoader = new MTLLoader();
+            const mikuMaterial = await matLoader.loadAsync('assets/spinny/miku.mtl');
+            // load spinny miku
+            const objLoader = new OBJLoader();
+            objLoader.setMaterials(mikuMaterial);
+            const miku = await objLoader.loadAsync('assets/spinny/miku.obj');
+            scene.add(miku);
+            miku.rotation.x = 3.14/2;
 
-            camera.position.z = 5;
+            camera.position.z = 6;
+
+            // ambient light should be fine, for some reason the model already has baked shadows?
+            // handheld programmers were legendary
+            scene.add(new three.AmbientLight(0xffffff, 1));
 
             renderer.setAnimationLoop((time) => {
                 camera.aspect = (window.innerWidth / window.innerHeight);
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-                cube.rotation.y = time / 500;
-                cube.rotation.x = time / 500;
+                miku.rotation.z = time / 200;
                 renderer.render(scene, camera);
             });
         </script>
