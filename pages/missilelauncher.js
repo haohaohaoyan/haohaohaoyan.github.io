@@ -1,8 +1,7 @@
 var assignedWindow = document.querySelector(`#${document.currentScript.dataset.window}`);
-var assignedContext = assignedWindow.querySelector("iframe").contentWindow.document
+var assignedContext = assignedWindow.querySelector("iframe").contentWindow.document;
 
-
-var bigRedButton = assignedContext.querySelector("#bigredbutton");
+var bigRedButton = assignedContext.querySelector("canvas");
 
 bigRedButton.addEventListener("click", () => {
     // create explosion image and set things
