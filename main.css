@@ -135,7 +135,7 @@ body {
     display: grid;
     height: calc(100vh - 3em);
     grid-template-columns: 100px;
-    grid-template-rows: repeat(auto-fill, 120px);
+    grid-template-rows: repeat(auto-fill, 112px);
     gap: 10px;
     padding: 10px;
 }
@@ -154,4 +154,8 @@ body {
 .appicon > img {
     width: 64px;
     height: 64px;
+}
+
+.appicon > h3 {
+    margin: 0;
 }

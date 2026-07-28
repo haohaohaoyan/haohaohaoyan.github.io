@@ -227,11 +227,10 @@ if (window.innerHeight >= window.innerWidth * 1.3) {
 };
 
 // converts vw to pixels because that's what the stretch functions expect
-createWindow("pages/start.html", false, `${window.innerWidth * 0.3}px`, `${window.innerHeight * 0.5 - window.innerWidth * 0.15}px`, `${window.innerWidth * 0.4}px`, `${window.innerWidth * 0.3}px`);
+//createWindow("pages/start.html", false, `${window.innerWidth * 0.3}px`, `${window.innerHeight * 0.5 - window.innerWidth * 0.15}px`, `${window.innerWidth * 0.4}px`, `${window.innerWidth * 0.3}px`);
 
 // debug
-//createWindow("pages/draw.html");
-//createWindow("pages/missilebutton.html");
+createWindow("pages/modelspinner.html")
 
 console.log("Did you expect anything here?");
 
