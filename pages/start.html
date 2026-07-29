@@ -68,6 +68,7 @@
                 font-size: 1em;
                 font-weight: bold;
                 margin: 5px;
+                cursor: pointer;
             }
 
             a {
@@ -76,6 +77,11 @@
 
             li {
                 margin: 1em 0;
+            }
+
+            #webring-group {
+                width: fit-content;
+                margin: auto;
             }
         </style>
         <div id="headerbar">
@@ -109,6 +115,21 @@
                 <li>opening some pages with the shortcuts on the left</li>
                 <li>right clicking, pressing "open file", typing in "assets/start.html", and pressing "open"! this works with all files in this repo, try it out!</li>
             </ul>
+            <a href="versionhistory.html"><button class="openwindow" data-windowpath="pages/versionhistory.html"
+                style="background-color: white; color: black">website version history</button></a>
+            
+            <div id="webring-group"> <!-- for collapsing-->
+                <h2>webrings</h2>
+                <p>explore other cool indie sites!</p>
+                <map name="w95widget">
+                    <area href="https://baccyflap.com/noai" target="_blank" shape="rect" coords="0,0,308,22" alt="no ai webring" title="no ai webring">
+                    <area href="https://baccyflap.com/noai/?prv&s=hao" target="_top" shape="rect" coords="56,36,130,58" alt="previous" title="previous">
+                    <area href="https://baccyflap.com/noai/?rnd" target="_top" shape="rect" coords="137,36,211,58" alt="random" title="random">
+                    <area href="https://baccyflap.com/noai/?nxt&s=hao" target="_top" shape="rect" coords="218,36,292,58" alt="next" title="next">
+                </map>
+                <img usemap="#w95widget" src="https://baccyflap.com/noai/w95widget.gif" alt="a gray Windows 95 style dialog box titled 'The No AI Webring' with a little icon showing a computer chip in a rubbish bin. beside it are three clickable buttons, labeled Previous, Random... and Next">
+                <p>still joining some!</p>
+            </div>
         </div>
         <div class="content">
             <h2>other stuff</h2>

@@ -59,3 +59,7 @@ body {
     max-width: 800px;
     margin: auto;
 }
+
+a {
+    text-decoration: none;
+}
