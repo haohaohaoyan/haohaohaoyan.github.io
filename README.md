@@ -1,5 +1,7 @@
 # haoyanli.dev / haohaohaoyan.github.io
 
+visit by opening the website in your browser! it is hosted at [haoyanli.dev](haoyanli.dev), or [haohaohaoyan.github.io](haohaohaoyan.github.io) if my domain expires
+
 a personal website that does a few things: 
 - a gallery for my projects
 - a way to find things i've done
