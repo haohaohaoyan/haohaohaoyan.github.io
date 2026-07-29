@@ -136,6 +136,7 @@ body {
     height: calc(100vh - 3em);
     grid-template-columns: 100px;
     grid-template-rows: repeat(auto-fill, 112px);
+    grid-auto-flow: column;
     gap: 10px;
     padding: 10px;
 }
