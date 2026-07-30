@@ -2,7 +2,8 @@
 
 visit by opening the website in your browser! it is hosted at [haoyanli.dev](haoyanli.dev), or [haohaohaoyan.github.io](haohaohaoyan.github.io) if my domain expires
 
-run locally by cloning the repo and and hosting it on a local server, like vscode's live server plugin. it won't work just with a double click because of a whole lot of rules about accessing files.
+run locally by cloning the repo and and hosting it on a local server, like vscode's live server plugin. the main page is at index.html.
+it won't work just with a double click because of a whole lot of rules about accessing files.
 it's going to be SLIGHTLY slower because files aren't cached as aggressively however.
 
 a personal website that does a few things: 
