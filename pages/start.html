@@ -82,6 +82,7 @@
             #webring-group {
                 width: fit-content;
                 margin: auto;
+                text-align: center;
             }
         </style>
         <div id="headerbar">
@@ -141,7 +142,33 @@
                     <script src="https://4ster.nekoweb.org/webrings/onionring-widget.js"></script>
                 </div>
 
+
                 <p>still joining some!</p>
+
+                <!-- web badge-->
+                <h2>my web badge</h2>
+                <p>88x31, this one's somewhat big so beware! (that's the entire bad apple gif)</p>
+                <p>it's 250kb but if you want it anyway, click on the badge to copy its html snippet!</p>
+                <p id="copyalert" style="display: none">copied!</p>
+                <img id="slow-full-badge" loading="lazy" src="../icons/webbadge_4fps.gif" style="image-rendering: pixelated;">
+                <!-- itty bitty script -->
+                <script>
+                    document.querySelector("#slow-full-badge").addEventListener("click", () => {
+                        try {
+                            navigator.clipboard.writeText(
+                                `<a href='https://haoyanli.dev'>
+                                    <img loading='lazy' src='https://haoyanli.dev/icons/webbadge_4fps.gif' height='31' width='88' style='image-rendering: pixelated' onclick=''>
+                                </a>`
+                            );
+                            document.querySelector("#copyalert").style.display = "block";
+                            setTimeout(() => {
+                                document.querySelector("#copyalert").style.display = "none";
+                            }, 1000);
+                        } catch (e) {
+                            alert("Copy failed?????");
+                        };
+                    });
+                </script>
             </div>
         </div>
         <div class="content">
